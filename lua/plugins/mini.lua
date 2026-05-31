@@ -15,7 +15,17 @@ return {
           "██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
           "╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
         }, "\n"),
-        footer = "Space is leader",
+        footer = function()
+          local uv = vim.uv or vim.loop
+          local start_time = vim.g.nvim_start_time
+
+          if type(start_time) ~= "number" then
+            return "Space is leader"
+          end
+
+          local startup_ms = (uv.hrtime() - start_time) / 1000000
+          return string.format("Space is leader  |  startup %.1f ms", startup_ms)
+        end,
         items = {
           starter.sections.builtin_actions(),
           starter.sections.recent_files(8, false),
