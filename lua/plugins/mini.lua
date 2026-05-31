@@ -1,5 +1,34 @@
 return {
   {
+    "nvim-mini/mini.starter",
+    version = "*",
+    event = "VimEnter",
+    opts = function()
+      local starter = require("mini.starter")
+
+      return {
+        header = table.concat({
+          "███╗   ██╗██╗   ██╗██╗███╗   ███╗",
+          "████╗  ██║██║   ██║██║████╗ ████║",
+          "██╔██╗ ██║██║   ██║██║██╔████╔██║",
+          "██║╚██╗██║╚██╗ ██╔╝██║██║╚██╔╝██║",
+          "██║ ╚████║ ╚████╔╝ ██║██║ ╚═╝ ██║",
+          "╚═╝  ╚═══╝  ╚═══╝  ╚═╝╚═╝     ╚═╝",
+        }, "\n"),
+        footer = "Space is leader",
+        items = {
+          starter.sections.builtin_actions(),
+          starter.sections.recent_files(8, false),
+          starter.sections.recent_files(8, true),
+        },
+        content_hooks = {
+          starter.gen_hook.adding_bullet("  "),
+          starter.gen_hook.aligning("center", "center"),
+        },
+      }
+    end,
+  },
+  {
     "nvim-mini/mini.ai",
     version = "*",
     event = "VeryLazy",
@@ -57,6 +86,37 @@ return {
         },
         symbol = "│",
       }
+    end,
+    config = function(_, opts)
+      require("mini.indentscope").setup(opts)
+
+      local disabled_filetypes = {
+        help = true,
+        lazy = true,
+        man = true,
+        mason = true,
+        ministarter = true,
+        oil = true,
+        qf = true,
+      }
+
+      local disable_for_special_buffer = function(args)
+        local bufnr = args.buf
+
+        if not vim.api.nvim_buf_is_valid(bufnr) then
+          return
+        end
+
+        local buftype = vim.bo[bufnr].buftype
+        local filetype = vim.bo[bufnr].filetype
+        vim.b[bufnr].miniindentscope_disable = buftype ~= "" or disabled_filetypes[filetype] == true
+      end
+
+      vim.api.nvim_create_autocmd({ "BufEnter", "FileType", "TermOpen" }, {
+        callback = disable_for_special_buffer,
+      })
+
+      disable_for_special_buffer({ buf = vim.api.nvim_get_current_buf() })
     end,
   },
   {
