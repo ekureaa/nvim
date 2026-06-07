@@ -28,7 +28,7 @@ nvim
 :Lazy sync
 ```
 
-LSP サーバーは `mason.nvim` / `mason-lspconfig.nvim` で管理しています。現在は `lua_ls`, `pyright`, `ruff` が自動インストール対象です。
+LSP サーバーは `mason.nvim` / `mason-lspconfig.nvim` で管理しています。現在は `lua_ls`, `pyright`, `ruff`, `ts_ls`, `vue_ls`, `zls` が自動インストール対象です。
 
 ```vim
 :Mason
@@ -46,9 +46,12 @@ LSP サーバーは `mason.nvim` / `mason-lspconfig.nvim` で管理していま�
 
 - `lazygit`: `<leader>gg` で Neovim 内から lazygit を開く
 - WSL + `powershell.exe`: Windows クリップボード連携
+- Dev Containerを表示する端末のOSC 52対応: コンテナからWindowsへのyank連携
 - `ripgrep`: `mini.pick` の grep 系検索で推奨
 
 WSL では Windows 側クリップボードと同期します。通常の `y` が Windows クリップボードに入り、Windows 側でコピーした文字列も Neovim から貼り付けできます。日本語が文字化けしないよう、PowerShell 経由で UTF-8 を明示しています。
+
+Dev Container内ではOSC 52を使い、通常の`y`をWindows側クリップボードへ送ります。多くの端末はセキュリティ上OSC 52によるクリップボード読み取りに対応しないため、Windowsからコンテナ内Neovimへ貼り付ける場合は、VS Code Terminalなら`Ctrl+Shift+V`、Windows Terminalなら`Ctrl+Shift+V`など端末側の貼り付け操作を使います。Neovimの`p`は内部レジスタの貼り付けとして動作します。
 
 ## 基本方針
 
@@ -185,6 +188,7 @@ Git:
 現在自動インストール対象にしている parser:
 
 - `bash`
+- `css`
 - `html`
 - `javascript`
 - `json`
@@ -198,7 +202,9 @@ Git:
 - `typescript`
 - `vim`
 - `vimdoc`
+- `vue`
 - `yaml`
+- `zig`
 
 ## LSP
 
@@ -207,8 +213,13 @@ Git:
 - `lua_ls`
 - `pyright`
 - `ruff`
+- `ts_ls`
+- `vue_ls`
+- `zls`
 
 Python は `pyright` と `ruff` を同居させています。型チェックや補完は主に `pyright`、lint / import 周りは `ruff` が担当します。
+
+Vue は `vue_ls` と `ts_ls` を hybrid mode で同居させています。Vue SFC のテンプレートやスタイルは主に `vue_ls`、JavaScript / TypeScript は `ts_ls` が担当します。
 
 ## メンテナンス
 

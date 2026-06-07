@@ -1,5 +1,6 @@
 local languages = {
   "bash",
+  "css",
   "html",
   "javascript",
   "json",
@@ -13,11 +14,14 @@ local languages = {
   "typescript",
   "vim",
   "vimdoc",
+  "vue",
   "yaml",
+  "zig",
 }
 
 local filetypes = {
   "bash",
+  "css",
   "html",
   "javascript",
   "javascriptreact",
@@ -31,7 +35,9 @@ local filetypes = {
   "typescriptreact",
   "vim",
   "vimdoc",
+  "vue",
   "yaml",
+  "zig",
 }
 
 return {
